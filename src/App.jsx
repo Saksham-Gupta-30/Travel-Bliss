@@ -7,6 +7,8 @@ import Map from "./components/Map/Map"
 
 import { getPlacesData, getWeatherData } from "./components/api/index"
 
+import alanBtn from '@alan-ai/alan-sdk-web';
+
 const App = () => {
     const [places, setPlaces] = useState([])
     const [childClicked, setChildClicked] = useState(null)
@@ -20,6 +22,17 @@ const App = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [filteredPlaces, setFilteredPlaces] = useState([]);
+
+    useEffect(() => {
+        alanBtn({
+            key: process.env.REACT_APP_ALAN_AI_API_KEY,
+            onCommand: ({ command }) => {
+              if (command === 'go:back') {
+                // Call the client code that will react to the received command
+              }
+            }
+        });
+      }, []);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
